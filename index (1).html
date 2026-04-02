@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sterlington">
+<meta name="theme-color" content="#1B2A47">
+<title>Sterlington</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --navy: #1B2A47; --blue: #2563EB; --blue-light: #DBEAFE;
+  --green: #16A34A; --green-light: #DCFCE7;
+  --red: #DC2626; --yellow: #FFFBEB; --ybdr: #F59E0B;
+  --bg: #F1F5F9; --card: #FFFFFF; --border: #E2E8F0;
+  --text: #0F172A; --muted: #94A3B8; --sub: #64748B;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bot: env(safe-area-inset-bottom);
+}
+html, body { height: 100%; overflow: hidden; }
+body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
+
+/* ── HEADER ─────────────────────────────────── */
+#header {
+  background: var(--navy);
+  padding: calc(var(--safe-top) + 14px) 18px 14px;
+  flex-shrink: 0;
+  border-bottom: 2px solid var(--blue);
+}
+#header-inner { display: flex; align-items: center; gap: 12px; }
+#back-btn {
+  background: rgba(255,255,255,0.1); border: none; color: #93C5FD;
+  border-radius: 10px; padding: 8px 14px; font-size: 16px;
+  cursor: pointer; display: none; white-space: nowrap;
+}
+#header-title { flex: 1; }
+#header-eyebrow { font-size: 11px; letter-spacing: 3px; color: #60A5FA; text-transform: uppercase; margin-bottom: 2px; }
+#header-name { font-size: 19px; font-weight: 700; color: #F8FAFC; }
+#add-btn {
+  background: var(--blue); border: none; color: #fff;
+  border-radius: 12px; padding: 10px 18px; font-size: 16px;
+  font-weight: 700; cursor: pointer; display: none;
+  font-family: inherit; white-space: nowrap;
+}
+
+/* ── SCROLL AREA ────────────────────────────── */
+#scroll {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 16px 16px calc(16px + var(--safe-bot));
+}
+
+/* ── DASHBOARD ──────────────────────────────── */
+#total-card {
+  background: linear-gradient(135deg, #1E3A6E, #1B2A47);
+  border-radius: 18px; padding: 22px 22px;
+  margin-bottom: 18px; border: 1px solid #2D4A7A;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+#total-eyebrow { font-size: 12px; letter-spacing: 3px; color: #60A5FA; text-transform: uppercase; margin-bottom: 6px; }
+#total-amount { font-size: 38px; font-weight: 800; color: #F8FAFC; letter-spacing: -1px; }
+#total-sub { font-size: 14px; color: #475569; margin-top: 4px; }
+
+.cat-card {
+  background: var(--card); border-radius: 16px;
+  margin-bottom: 10px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  cursor: pointer; active-scale: 0.98;
+  display: flex; align-items: center;
+  padding: 16px 18px; gap: 14px;
+}
+.cat-card:active { background: var(--blue-light); }
+.cat-icon { font-size: 28px; flex-shrink: 0; }
+.cat-info { flex: 1; min-width: 0; }
+.cat-name { font-size: 16px; font-weight: 600; color: var(--text); }
+.cat-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.cat-amount { font-size: 17px; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+.cat-amount.has-val { color: var(--green); }
+.cat-chevron { color: #CBD5E1; font-size: 18px; margin-left: 4px; }
+
+/* ── CATEGORY PAGE ──────────────────────────── */
+#subheader {
+  background: var(--navy); padding: 12px 16px;
+  border-bottom: 1px solid #1E3A5F;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-shrink: 0;
+}
+#subheader-left { font-size: 14px; color: #64748B; }
+#subheader-right { font-size: 18px; font-weight: 700; color: #60A5FA; }
+
+.expense-card {
+  background: var(--card); border-radius: 14px;
+  margin-bottom: 8px; border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  cursor: pointer; overflow: hidden;
+}
+.expense-card:active { background: #F8FAFC; }
+.expense-card-inner { padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+.expense-desc { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; line-height: 1.3; }
+.expense-right { text-align: right; flex-shrink: 0; }
+.expense-amount { font-size: 17px; font-weight: 700; color: var(--muted); }
+.expense-amount.has-val { color: var(--green); }
+.expense-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.expense-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+.expense-dot.filled { background: var(--green); }
+
+.subtotal-bar {
+  background: var(--navy); border-radius: 14px;
+  padding: 14px 18px; margin-bottom: 12px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.subtotal-label { font-size: 13px; color: #64748B; }
+.subtotal-val { font-size: 22px; font-weight: 800; color: #60A5FA; }
+
+#add-row-card {
+  background: var(--card); border-radius: 14px;
+  border: 2px dashed var(--blue); padding: 16px;
+  text-align: center; cursor: pointer; color: var(--blue);
+  font-size: 16px; font-weight: 600; margin-top: 4px;
+  font-family: inherit; width: 100%;
+}
+#add-row-card:active { background: var(--blue-light); }
+
+/* ── MODAL ──────────────────────────────────── */
+#modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 200; display: none; align-items: flex-end;
+  backdrop-filter: blur(4px);
+}
+#modal-overlay.open { display: flex; }
+#modal {
+  background: var(--card); width: 100%; max-width: 600px;
+  margin: 0 auto;
+  border-radius: 24px 24px 0 0;
+  padding: 0 0 calc(20px + var(--safe-bot));
+  max-height: 92vh; overflow-y: auto;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.25);
+}
+#modal-handle { width: 40px; height: 4px; background: #E2E8F0; border-radius: 2px; margin: 14px auto 18px; }
+#modal-title { font-size: 20px; font-weight: 700; color: var(--text); padding: 0 20px 16px; border-bottom: 1px solid var(--border); }
+.field-group { padding: 16px 20px 0; }
+.field-label { font-size: 12px; font-weight: 600; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.field-input {
+  width: 100%; border: 2px solid var(--border); border-radius: 12px;
+  padding: 14px 16px; font-size: 17px; font-family: inherit;
+  color: var(--text); background: var(--bg); outline: none;
+  transition: border-color 0.15s;
+}
+.field-input:focus { border-color: var(--blue); background: #fff; }
+.field-input.amount-input { font-size: 22px; font-weight: 700; color: var(--green); background: var(--yellow); border-color: var(--ybdr); text-align: right; }
+.field-input.amount-input:focus { border-color: var(--blue); }
+#modal-actions { display: flex; gap: 10px; padding: 20px 20px 0; }
+#modal-save { flex: 1; background: var(--blue); border: none; color: #fff; border-radius: 14px; padding: 16px; font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; }
+#modal-save:active { opacity: 0.85; }
+#modal-delete { background: #FEE2E2; border: none; color: var(--red); border-radius: 14px; padding: 16px 20px; font-size: 17px; cursor: pointer; font-family: inherit; display: none; }
+#modal-cancel { background: var(--bg); border: none; color: var(--sub); border-radius: 14px; padding: 16px 20px; font-size: 17px; cursor: pointer; font-family: inherit; }
+
+/* ── TOAST ──────────────────────────────────── */
+#toast {
+  position: fixed; bottom: calc(24px + var(--safe-bot));
+  left: 50%; transform: translateX(-50%);
+  background: #0F172A; color: #fff; border-radius: 12px;
+  padding: 12px 24px; font-size: 15px; font-weight: 500;
+  z-index: 400; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  display: none; white-space: nowrap;
+  border: 1px solid #1E3A5F;
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div id="header-inner">
+    <button id="back-btn" onclick="goBack()">← Back</button>
+    <div id="header-title">
+      <div id="header-eyebrow">⛽ Sterlington</div>
+      <div id="header-name">Expense Tracker</div>
+    </div>
+    <button id="add-btn" onclick="openAdd()">+ Add</button>
+  </div>
+</div>
+
+<div id="subheader" style="display:none">
+  <span id="subheader-left"></span>
+  <span id="subheader-right"></span>
+</div>
+
+<div id="scroll"></div>
+
+<!-- Modal -->
+<div id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div id="modal">
+    <div id="modal-handle"></div>
+    <div id="modal-title">Add Expense</div>
+    <div class="field-group">
+      <div class="field-label">Description</div>
+      <input id="f-desc" class="field-input" type="text" placeholder="e.g. Foundation & Slab">
+    </div>
+    <div class="field-group">
+      <div class="field-label">Amount Paid ($)</div>
+      <input id="f-amount" class="field-input amount-input" type="text" inputmode="decimal" placeholder="0.00">
+    </div>
+    <div class="field-group">
+      <div class="field-label">Vendor / Contractor</div>
+      <input id="f-vendor" class="field-input" type="text" placeholder="e.g. PDG Engineering">
+    </div>
+    <div class="field-group">
+      <div class="field-label">Invoice #</div>
+      <input id="f-invoice" class="field-input" type="text" placeholder="INV-001">
+    </div>
+    <div class="field-group">
+      <div class="field-label">Date Paid</div>
+      <input id="f-date" class="field-input" type="date">
+    </div>
+    <div id="modal-actions">
+      <button id="modal-delete" onclick="doDelete()">🗑 Delete</button>
+      <button id="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button id="modal-save" onclick="saveModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const KEY = 'sterlington-v4';
+
+const CATS = [
+  {id:'land',       label:'Land & Site Work',       icon:'🏗️'},
+  {id:'building',   label:'Building & Structure',    icon:'🏢'},
+  {id:'fuel',       label:'Canopy & Fuel Systems',   icon:'⛽'},
+  {id:'interior',   label:'Interior & Fixtures',     icon:'🛒'},
+  {id:'equipment',  label:'Equipment',               icon:'🧰'},
+  {id:'permits',    label:'Permits & Professional',  icon:'📋'},
+  {id:'technology', label:'Technology & Security',   icon:'💻'},
+  {id:'signage',    label:'Signage & Branding',      icon:'🪧'},
+  {id:'soft',       label:'Soft Costs & Misc',       icon:'📦'},
+];
+
+const DEFAULTS = {
+  land:['Land Purchase / Acquisition','Title Search & Closing Costs','Survey & Geotechnical Report','Phase I Environmental Assessment','Site Clearing & Demolition','Grading & Earthwork','Storm Drainage & Retention','Parking Lot — Asphalt / Concrete','Curb, Gutter & Sidewalks','Water / Sewer Tap Fee','Electric Service / Transformer','Underground Electrical Conduit','Fencing & Site Security','Landscaping'],
+  building:['Foundation & Slab','Framing — Steel / Wood Structure','Exterior Walls / Masonry / EIFS','Roofing System & Insulation','Exterior Doors & Windows','Interior Framing & Drywall','Flooring — Tile / Polished Concrete','Ceiling — Drop Tile / Painted','Interior Doors & Hardware','Painting — Interior & Exterior','HVAC System','Plumbing Rough-In & Fixtures','Electrical — Panel, Wiring, Lighting','Fire Suppression / Sprinkler System','Customer & Employee Restrooms','Beer Cave / Walk-In Cooler Structure','Kitchen / Food Service Area Build-Out'],
+  fuel:['Canopy — Steel Structure','Canopy — Roof, Fascia & Soffit','Canopy LED Lighting','Underground Storage Tanks (UST)','UST Installation & Backfill','Fuel Dispensers / Pumps','Dispenser Islands & Bollards','Fuel Management System (FMS)','Vapor Recovery System','Fuel Piping — Fiberglass / Flex','Spill Containment Sumps','Tank Monitoring System','Pump Payment Terminals','LDEQ Permit & Inspection','Environmental Compliance Testing'],
+  interior:['Store Shelving & Gondolas','Checkout / Cashier Counter','Multi-Door Cooler Installation','Cooler Interior Shelving','Walk-In Beer Cave Refrigeration','Coffee & Fountain Drink Station','Frozen / Slushie Machine Station','Hot Food Display & Warmer Cases','Kitchen Equipment — Fryer, Grill, Oven','Kitchen Hood & Ventilation','Food Prep Tables & Sinks','ATM Rough-In & Platform','Tobacco / Age-Restricted Display Case','Lottery Display Counter'],
+  equipment:['Ice Machine','Reach-In Cooler / Freezer','Cash Registers (Backup)','Coin-Op Vacuum / Air Machine','Propane Cage & Display','Mop Sink & Janitorial Setup','Hand Trucks, Carts & Storage','Office Furniture & Equipment','Break Room Equipment'],
+  permits:['Building Permit','Electrical Permit','Plumbing Permit','Mechanical / HVAC Permit','Fire Marshal / Sprinkler Permit','UST / Fuel System Permit (LDEQ)','Health Dept — Food Service License','Alcohol / Beer-Wine Permit','Tobacco Retail Permit','Lottery Retailer License','General Contractor Fee','Civil Engineering (PDG Engineering)','Structural Engineering','MEP Engineering','Architectural Design',"Project Management / Owner's Rep",'Legal Fees','Accounting / CPA',"Builder's Risk Insurance"],
+  technology:['POS System — Hardware','POS System — Software License','Back-Office Server / Computer','Security Camera System (CCTV)','DVR / NVR Storage','Alarm System — Burglary & Fire','Internet Service — Installation','WiFi Access Points','Network Cabling & Infrastructure','Phone System','Digital Menu / Promo Boards','Loyalty / Rewards Program Setup','Security Monitoring Service (1 yr)'],
+  signage:['Pylon / Pole Sign','Building Exterior Monument Sign','Fuel Price Sign / LED','Canopy Branding / Logo Panels','Window Graphics & Vinyl Decals','Interior Aisle Signage','Restroom & ADA Signage','Kitchen / Food Service Menu Board','Grand Opening Banners','Pump Topper Ads / Branding'],
+  soft:['Loan Origination / Financing Fees','Construction Loan Interest','General Liability Insurance','Temporary Utilities (Construction)','Site Security During Construction','Waste Removal / Dumpster Rental','Opening Inventory — Fuel','Opening Inventory — Store Merchandise','Employee Hiring & Training','Marketing / Grand Opening Event','Contingency Reserve (10%)','Miscellaneous / Unforeseen'],
+};
+
+// ── State ──────────────────────────────────
+let data = {};
+let currentCat = null;
+let editingId = null;
+let saveT = null;
+
+function buildDefaults() {
+  const out = {};
+  for (const [id, descs] of Object.entries(DEFAULTS)) {
+    out[id] = descs.map((d, i) => ({id:`${id}-${i}`, desc:d, amount:'', vendor:'', invoice:'', date:''}));
+  }
+  return out;
+}
+
+function load() {
+  const def = buildDefaults();
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved) {
+      for (const cat of CATS) {
+        const s = saved[cat.id] || [];
+        const d = def[cat.id] || [];
+        const ids = new Set(s.map(r=>r.id));
+        data[cat.id] = [...s, ...d.filter(r=>!ids.has(r.id))];
+      }
+    } else { data = def; }
+  } catch(_) { data = def; }
+}
+
+function save() {
+  clearTimeout(saveT);
+  saveT = setTimeout(() => localStorage.setItem(KEY, JSON.stringify(data)), 300);
+}
+
+// ── Utils ───────────────────────────────────
+const $ = id => document.getElementById(id);
+const fmt = n => '$' + Number(n||0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtLive = raw => { const d = String(raw).replace(/[^0-9.]/g,''); const p = d.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); return p.length>1?p[0]+'.'+p[1]:p[0]; };
+const catTotal = id => (data[id]||[]).reduce((s,r)=>s+(parseFloat(r.amount)||0),0);
+const grandTotal = () => CATS.reduce((s,c)=>s+catTotal(c.id),0);
+const rows = id => data[id]||[];
+
+function toast(msg) { const t=$('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',2000); }
+
+// ── Navigation ──────────────────────────────
+function goBack() {
+  currentCat = null;
+  $('back-btn').style.display = 'none';
+  $('add-btn').style.display = 'none';
+  $('subheader').style.display = 'none';
+  $('header-name').textContent = 'Expense Tracker';
+  renderDashboard();
+}
+
+function openCat(catId) {
+  currentCat = catId;
+  const cat = CATS.find(c=>c.id===catId);
+  $('header-name').textContent = cat.icon + ' ' + cat.label;
+  $('back-btn').style.display = 'block';
+  $('add-btn').style.display = 'block';
+  $('subheader').style.display = 'flex';
+  renderCategory(catId);
+}
+
+// ── Render Dashboard ────────────────────────
+function renderDashboard() {
+  const gt = grandTotal();
+  let cards = '';
+  CATS.forEach(cat => {
+    const total = catTotal(cat.id);
+    const filled = rows(cat.id).filter(r=>parseFloat(r.amount)>0).length;
+    const count  = rows(cat.id).length;
+    cards += `
+      <div class="cat-card" onclick="openCat('${cat.id}')">
+        <div class="cat-icon">${cat.icon}</div>
+        <div class="cat-info">
+          <div class="cat-name">${cat.label}</div>
+          <div class="cat-sub">${filled} of ${count} entered</div>
+        </div>
+        <div class="cat-amount ${total>0?'has-val':''}">${total>0?fmt(total):'—'}</div>
+        <div class="cat-chevron">›</div>
+      </div>`;
+  });
+  $('scroll').innerHTML = `
+    <div id="total-card">
+      <div id="total-eyebrow">Total Spent to Date</div>
+      <div id="total-amount">${fmt(gt)}</div>
+      <div id="total-sub">Sterlington, Louisiana · New Build</div>
+    </div>
+    ${cards}
+    <button onclick="exportData()" style="width:100%;background:#0F172A;border:1px solid #1E3A5F;color:#60A5FA;border-radius:14px;padding:16px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px">
+      \u{1F4E4} Export Backup to File
+    </button>
+    <div style="height:8px"></div>
+  `;
+}
+
+// ── Render Category ─────────────────────────
+function renderCategory(catId) {
+  const total = catTotal(catId);
+  const filled = rows(catId).filter(r=>parseFloat(r.amount)>0).length;
+  const count  = rows(catId).length;
+
+  $('subheader-left').textContent = `${filled} of ${count} entered`;
+  $('subheader-right').textContent = fmt(total);
+
+  let cards = '';
+  rows(catId).forEach(row => {
+    const hasAmt = parseFloat(row.amount) > 0;
+    const meta = [row.vendor, row.invoice, row.date].filter(Boolean).join(' · ');
+    cards += `
+      <div class="expense-card" onclick="openEdit('${catId}','${row.id}')">
+        <div class="expense-card-inner">
+          <div class="expense-dot ${hasAmt?'filled':''}"></div>
+          <div class="expense-desc">${row.desc}</div>
+          <div class="expense-right">
+            <div class="expense-amount ${hasAmt?'has-val':''}">${hasAmt?fmt(parseFloat(row.amount)):'—'}</div>
+            ${meta ? `<div class="expense-meta">${meta}</div>` : ''}
+          </div>
+        </div>
+      </div>`;
+  });
+
+  $('scroll').innerHTML = `
+    <div class="subtotal-bar">
+      <span class="subtotal-label">SUBTOTAL</span>
+      <span class="subtotal-val">${fmt(total)}</span>
+    </div>
+    ${cards}
+    <button id="add-row-card" onclick="openAdd()">+ Add Custom Item</button>
+    <div style="height:12px"></div>
+  `;
+}
+
+// ── Modal ───────────────────────────────────
+function openAdd() {
+  editingId = null;
+  $('modal-title').textContent = 'Add Expense';
+  $('f-desc').value = '';
+  $('f-amount').value = '';
+  $('f-vendor').value = '';
+  $('f-invoice').value = '';
+  $('f-date').value = '';
+  $('modal-delete').style.display = 'none';
+  $('modal-overlay').classList.add('open');
+  setTimeout(() => $('f-amount').focus(), 300);
+}
+
+function openEdit(catId, rowId) {
+  const row = rows(catId).find(r=>r.id===rowId);
+  if (!row) return;
+  editingId = rowId;
+  currentCat = catId;
+  $('modal-title').textContent = row.desc;
+  $('f-desc').value = row.desc;
+  $('f-amount').value = row.amount ? fmtLive(row.amount) : '';
+  $('f-vendor').value = row.vendor || '';
+  $('f-invoice').value = row.invoice || '';
+  $('f-date').value = row.date || '';
+  $('modal-delete').style.display = 'block';
+  $('modal-overlay').classList.add('open');
+  setTimeout(() => $('f-amount').focus(), 300);
+}
+
+function closeModal() { $('modal-overlay').classList.remove('open'); editingId = null; }
+
+function handleOverlayClick(e) { if (e.target === $('modal-overlay')) closeModal(); }
+
+function saveModal() {
+  const desc   = $('f-desc').value.trim();
+  const amount = $('f-amount').value.replace(/[^0-9.]/g,'');
+  const vendor = $('f-vendor').value.trim();
+  const invoice= $('f-invoice').value.trim();
+  const date   = $('f-date').value;
+  if (!desc) { $('f-desc').focus(); return; }
+
+  if (editingId) {
+    data[currentCat] = rows(currentCat).map(r =>
+      r.id === editingId ? {...r, desc, amount, vendor, invoice, date} : r
+    );
+    toast('✓ Saved');
+  } else {
+    const row = {id: Date.now().toString(), desc, amount, vendor, invoice, date};
+    data[currentCat] = [...rows(currentCat), row];
+    toast('✓ Added');
+  }
+  save();
+  closeModal();
+  renderCategory(currentCat);
+}
+
+function doDelete() {
+  if (!editingId) return;
+  data[currentCat] = rows(currentCat).filter(r=>r.id!==editingId);
+  save();
+  closeModal();
+  renderCategory(currentCat);
+  toast('Deleted');
+}
+
+// Amount live formatting
+$('f-amount').addEventListener('input', function() {
+  const pos = this.selectionStart;
+  const raw = this.value.replace(/[^0-9.]/g,'');
+  this.value = fmtLive(raw);
+});
+
+
+// Export backup
+function exportData() {
+  const d = new Date().toLocaleDateString("en-US");
+  let t = "STERLINGTON EXPENSE TRACKER\nExported: " + d + "\n" + "=".repeat(40) + "\n\n";
+  let grand = 0;
+  for (const cat of CATS) {
+    const r2 = (data[cat.id]||[]).filter(r => parseFloat(r.amount) > 0);
+    const sub = r2.reduce((s,r)=>s+(parseFloat(r.amount)||0),0);
+    grand += sub;
+    t += cat.icon + " " + cat.label.toUpperCase() + "\n" + "-".repeat(36) + "\n";
+    if (!r2.length) { t += "  (no entries)\n"; }
+    else {
+      r2.forEach(r => {
+        t += "  " + r.desc + "\n    Amount:  " + fmt(parseFloat(r.amount)) + "\n";
+        if (r.vendor)  t += "    Vendor:  " + r.vendor + "\n";
+        if (r.invoice) t += "    Invoice: " + r.invoice + "\n";
+        if (r.date)    t += "    Date:    " + r.date + "\n";
+      });
+      t += "  SUBTOTAL: " + fmt(sub) + "\n";
+    }
+    t += "\n";
+  }
+  t += "=".repeat(40) + "\nGRAND TOTAL: " + fmt(grand) + "\n";
+  const blob = new Blob([t], {type:"text/plain"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href=url; a.download="Sterlington-"+d.replace(/\//g,"-")+".txt"; a.click();
+  URL.revokeObjectURL(url);
+  toast("Export downloaded!");
+}
+// ── Init ────────────────────────────────────
+load();
+renderDashboard();
+</script>
+</body>
+</html>
