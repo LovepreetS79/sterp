@@ -12,164 +12,84 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 :root {
   --navy: #1B2A47; --blue: #2563EB; --blue-light: #DBEAFE;
-  --green: #16A34A; --green-light: #DCFCE7;
-  --red: #DC2626; --yellow: #FFFBEB; --ybdr: #F59E0B;
+  --green: #16A34A; --red: #DC2626;
+  --yellow: #FFFBEB; --ybdr: #F59E0B;
   --bg: #F1F5F9; --card: #FFFFFF; --border: #E2E8F0;
   --text: #0F172A; --muted: #94A3B8; --sub: #64748B;
-  --safe-top: env(safe-area-inset-top);
-  --safe-bot: env(safe-area-inset-bottom);
 }
 html, body { height: 100%; overflow: hidden; }
-body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
+body { font-family: -apple-system,'Helvetica Neue',sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
 
-/* ── HEADER ─────────────────────────────────── */
-#header {
-  background: var(--navy);
-  padding: calc(var(--safe-top) + 14px) 18px 14px;
-  flex-shrink: 0;
-  border-bottom: 2px solid var(--blue);
-}
+#header { background: var(--navy); padding: 14px 18px; flex-shrink: 0; border-bottom: 2px solid var(--blue); }
 #header-inner { display: flex; align-items: center; gap: 12px; }
-#back-btn {
-  background: rgba(255,255,255,0.1); border: none; color: #93C5FD;
-  border-radius: 10px; padding: 8px 14px; font-size: 16px;
-  cursor: pointer; display: none; white-space: nowrap;
-}
+#back-btn { background: rgba(255,255,255,0.1); border: none; color: #93C5FD; border-radius: 10px; padding: 8px 14px; font-size: 16px; cursor: pointer; display: none; }
 #header-title { flex: 1; }
 #header-eyebrow { font-size: 11px; letter-spacing: 3px; color: #60A5FA; text-transform: uppercase; margin-bottom: 2px; }
 #header-name { font-size: 19px; font-weight: 700; color: #F8FAFC; }
-#add-btn {
-  background: var(--blue); border: none; color: #fff;
-  border-radius: 12px; padding: 10px 18px; font-size: 16px;
-  font-weight: 700; cursor: pointer; display: none;
-  font-family: inherit; white-space: nowrap;
-}
+#sync-status { font-size: 11px; color: #60A5FA; }
+#add-btn { background: var(--blue); border: none; color: #fff; border-radius: 12px; padding: 10px 18px; font-size: 16px; font-weight: 700; cursor: pointer; display: none; font-family: inherit; }
 
-/* ── SCROLL AREA ────────────────────────────── */
-#scroll {
-  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-  padding: 16px 16px calc(16px + var(--safe-bot));
-}
+#subheader { background: var(--navy); padding: 8px 16px 12px; border-bottom: 1px solid #1E3A5F; display: none; justify-content: space-between; align-items: center; flex-shrink: 0; }
+#subheader-left { font-size: 13px; color: #64748B; }
+#subheader-right { font-size: 18px; font-weight: 800; color: #60A5FA; }
 
-/* ── DASHBOARD ──────────────────────────────── */
-#total-card {
-  background: linear-gradient(135deg, #1E3A6E, #1B2A47);
-  border-radius: 18px; padding: 22px 22px;
-  margin-bottom: 18px; border: 1px solid #2D4A7A;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
+#scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px; }
+
+#total-card { background: linear-gradient(135deg,#1E3A6E,#1B2A47); border-radius: 18px; padding: 22px; margin-bottom: 18px; border: 1px solid #2D4A7A; }
 #total-eyebrow { font-size: 12px; letter-spacing: 3px; color: #60A5FA; text-transform: uppercase; margin-bottom: 6px; }
 #total-amount { font-size: 38px; font-weight: 800; color: #F8FAFC; letter-spacing: -1px; }
 #total-sub { font-size: 14px; color: #475569; margin-top: 4px; }
 
-.cat-card {
-  background: var(--card); border-radius: 16px;
-  margin-bottom: 10px; overflow: hidden;
-  border: 1px solid var(--border);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-  cursor: pointer; active-scale: 0.98;
-  display: flex; align-items: center;
-  padding: 16px 18px; gap: 14px;
-}
+.cat-card { background: var(--card); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; align-items: center; padding: 16px; gap: 14px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
 .cat-card:active { background: var(--blue-light); }
-.cat-icon { font-size: 28px; flex-shrink: 0; }
-.cat-info { flex: 1; min-width: 0; }
+.cat-icon { font-size: 26px; flex-shrink: 0; }
+.cat-info { flex: 1; }
 .cat-name { font-size: 16px; font-weight: 600; color: var(--text); }
 .cat-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
-.cat-amount { font-size: 17px; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+.cat-amount { font-size: 17px; font-weight: 700; color: var(--muted); }
 .cat-amount.has-val { color: var(--green); }
-.cat-chevron { color: #CBD5E1; font-size: 18px; margin-left: 4px; }
 
-/* ── CATEGORY PAGE ──────────────────────────── */
-#subheader {
-  background: var(--navy); padding: 12px 16px;
-  border-bottom: 1px solid #1E3A5F;
-  display: flex; justify-content: space-between; align-items: center;
-  flex-shrink: 0;
-}
-#subheader-left { font-size: 14px; color: #64748B; }
-#subheader-right { font-size: 18px; font-weight: 700; color: #60A5FA; }
-
-.expense-card {
-  background: var(--card); border-radius: 14px;
-  margin-bottom: 8px; border: 1px solid var(--border);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  cursor: pointer; overflow: hidden;
-}
+.expense-card { background: var(--card); border-radius: 14px; margin-bottom: 8px; border: 1px solid var(--border); cursor: pointer; }
 .expense-card:active { background: #F8FAFC; }
-.expense-card-inner { padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
-.expense-desc { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; line-height: 1.3; }
+.expense-inner { padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+.expense-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+.expense-dot.filled { background: var(--green); }
+.expense-desc { flex: 1; font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.3; }
 .expense-right { text-align: right; flex-shrink: 0; }
 .expense-amount { font-size: 17px; font-weight: 700; color: var(--muted); }
 .expense-amount.has-val { color: var(--green); }
 .expense-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.expense-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
-.expense-dot.filled { background: var(--green); }
 
-.subtotal-bar {
-  background: var(--navy); border-radius: 14px;
-  padding: 14px 18px; margin-bottom: 12px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.subtotal-label { font-size: 13px; color: #64748B; }
-.subtotal-val { font-size: 22px; font-weight: 800; color: #60A5FA; }
+#add-custom-btn { background: var(--card); border: 2px dashed var(--blue); border-radius: 14px; padding: 16px; width: 100%; text-align: center; color: var(--blue); font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 4px; font-family: inherit; }
 
-#add-row-card {
-  background: var(--card); border-radius: 14px;
-  border: 2px dashed var(--blue); padding: 16px;
-  text-align: center; cursor: pointer; color: var(--blue);
-  font-size: 16px; font-weight: 600; margin-top: 4px;
-  font-family: inherit; width: 100%;
-}
-#add-row-card:active { background: var(--blue-light); }
-
-/* ── MODAL ──────────────────────────────────── */
-#modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-  z-index: 200; display: none; align-items: flex-end;
-  backdrop-filter: blur(4px);
-}
+#modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; display: none; align-items: flex-end; }
 #modal-overlay.open { display: flex; }
-#modal {
-  background: var(--card); width: 100%; max-width: 600px;
-  margin: 0 auto;
-  border-radius: 24px 24px 0 0;
-  padding: 0 0 calc(20px + var(--safe-bot));
-  max-height: 92vh; overflow-y: auto;
-  box-shadow: 0 -8px 40px rgba(0,0,0,0.25);
-}
-#modal-handle { width: 40px; height: 4px; background: #E2E8F0; border-radius: 2px; margin: 14px auto 18px; }
+#modal { background: var(--card); width: 100%; border-radius: 24px 24px 0 0; padding: 0 0 30px; max-height: 92vh; overflow-y: auto; }
+#modal-handle { width: 40px; height: 4px; background: #E2E8F0; border-radius: 2px; margin: 14px auto 16px; }
 #modal-title { font-size: 20px; font-weight: 700; color: var(--text); padding: 0 20px 16px; border-bottom: 1px solid var(--border); }
-.field-group { padding: 16px 20px 0; }
+.field-group { padding: 14px 20px 0; }
 .field-label { font-size: 12px; font-weight: 600; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.field-input {
-  width: 100%; border: 2px solid var(--border); border-radius: 12px;
-  padding: 14px 16px; font-size: 17px; font-family: inherit;
-  color: var(--text); background: var(--bg); outline: none;
-  transition: border-color 0.15s;
-}
+.field-input { width: 100%; border: 2px solid var(--border); border-radius: 12px; padding: 14px 16px; font-size: 17px; font-family: inherit; color: var(--text); background: var(--bg); outline: none; }
 .field-input:focus { border-color: var(--blue); background: #fff; }
-.field-input.amount-input { font-size: 22px; font-weight: 700; color: var(--green); background: var(--yellow); border-color: var(--ybdr); text-align: right; }
-.field-input.amount-input:focus { border-color: var(--blue); }
+.amount-input { font-size: 22px; font-weight: 700; color: var(--green); background: var(--yellow); border-color: var(--ybdr); text-align: right; }
 #modal-actions { display: flex; gap: 10px; padding: 20px 20px 0; }
 #modal-save { flex: 1; background: var(--blue); border: none; color: #fff; border-radius: 14px; padding: 16px; font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; }
-#modal-save:active { opacity: 0.85; }
 #modal-delete { background: #FEE2E2; border: none; color: var(--red); border-radius: 14px; padding: 16px 20px; font-size: 17px; cursor: pointer; font-family: inherit; display: none; }
 #modal-cancel { background: var(--bg); border: none; color: var(--sub); border-radius: 14px; padding: 16px 20px; font-size: 17px; cursor: pointer; font-family: inherit; }
 
-/* ── TOAST ──────────────────────────────────── */
-#toast {
-  position: fixed; bottom: calc(24px + var(--safe-bot));
-  left: 50%; transform: translateX(-50%);
-  background: #0F172A; color: #fff; border-radius: 12px;
-  padding: 12px 24px; font-size: 15px; font-weight: 500;
-  z-index: 400; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  display: none; white-space: nowrap;
-  border: 1px solid #1E3A5F;
-}
+#toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #0F172A; color: #fff; border-radius: 12px; padding: 12px 24px; font-size: 15px; font-weight: 500; z-index: 400; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: none; white-space: nowrap; border: 1px solid #1E3A5F; }
+
+#loading-screen { position: fixed; inset: 0; background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 500; }
+#loading-screen h2 { color: #F8FAFC; font-size: 22px; margin-bottom: 8px; }
+#loading-screen p { color: #60A5FA; font-size: 14px; }
 </style>
 </head>
 <body>
+
+<div id="loading-screen">
+  <h2>⛽ Sterlington</h2>
+  <p>Loading your data...</p>
+</div>
 
 <div id="header">
   <div id="header-inner">
@@ -178,42 +98,25 @@ body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-seri
       <div id="header-eyebrow">⛽ Sterlington</div>
       <div id="header-name">Expense Tracker</div>
     </div>
+    <span id="sync-status"></span>
     <button id="add-btn" onclick="openAdd()">+ Add</button>
   </div>
 </div>
-
-<div id="subheader" style="display:none">
+<div id="subheader">
   <span id="subheader-left"></span>
   <span id="subheader-right"></span>
 </div>
-
 <div id="scroll"></div>
 
-<!-- Modal -->
-<div id="modal-overlay" onclick="handleOverlayClick(event)">
+<div id="modal-overlay" onclick="handleOverlay(event)">
   <div id="modal">
     <div id="modal-handle"></div>
     <div id="modal-title">Add Expense</div>
-    <div class="field-group">
-      <div class="field-label">Description</div>
-      <input id="f-desc" class="field-input" type="text" placeholder="e.g. Foundation & Slab">
-    </div>
-    <div class="field-group">
-      <div class="field-label">Amount Paid ($)</div>
-      <input id="f-amount" class="field-input amount-input" type="text" inputmode="decimal" placeholder="0.00">
-    </div>
-    <div class="field-group">
-      <div class="field-label">Vendor / Contractor</div>
-      <input id="f-vendor" class="field-input" type="text" placeholder="e.g. PDG Engineering">
-    </div>
-    <div class="field-group">
-      <div class="field-label">Invoice #</div>
-      <input id="f-invoice" class="field-input" type="text" placeholder="INV-001">
-    </div>
-    <div class="field-group">
-      <div class="field-label">Date Paid</div>
-      <input id="f-date" class="field-input" type="date">
-    </div>
+    <div class="field-group"><div class="field-label">Description</div><input id="f-desc" class="field-input" type="text" placeholder="e.g. Foundation & Slab"></div>
+    <div class="field-group"><div class="field-label">Amount Paid ($)</div><input id="f-amount" class="field-input amount-input" type="text" inputmode="decimal" placeholder="0.00"></div>
+    <div class="field-group"><div class="field-label">Vendor / Contractor</div><input id="f-vendor" class="field-input" type="text" placeholder="e.g. PDG Engineering"></div>
+    <div class="field-group"><div class="field-label">Invoice #</div><input id="f-invoice" class="field-input" type="text" placeholder="INV-001"></div>
+    <div class="field-group"><div class="field-label">Date Paid</div><input id="f-date" class="field-input" type="date"></div>
     <div id="modal-actions">
       <button id="modal-delete" onclick="doDelete()">🗑 Delete</button>
       <button id="modal-cancel" onclick="closeModal()">Cancel</button>
@@ -221,22 +124,38 @@ body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-seri
     </div>
   </div>
 </div>
-
 <div id="toast"></div>
 
 <script>
-const KEY = 'sterlington-v4';
+// ── Supabase Config ─────────────────────────
+const SUPABASE_URL = 'https://yolmnrgnycduimfeythd.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_cFfMoe3DrSm6UUINdAf5Kw_H2KzC9tP';
+
+async function sbFetch(method, path, body) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    method,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'resolution=merge-duplicates' : ''
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if (method === 'DELETE' || res.status === 204) return true;
+  return res.json();
+}
 
 const CATS = [
-  {id:'land',       label:'Land & Site Work',       icon:'🏗️'},
-  {id:'building',   label:'Building & Structure',    icon:'🏢'},
-  {id:'fuel',       label:'Canopy & Fuel Systems',   icon:'⛽'},
-  {id:'interior',   label:'Interior & Fixtures',     icon:'🛒'},
-  {id:'equipment',  label:'Equipment',               icon:'🧰'},
-  {id:'permits',    label:'Permits & Professional',  icon:'📋'},
-  {id:'technology', label:'Technology & Security',   icon:'💻'},
-  {id:'signage',    label:'Signage & Branding',      icon:'🪧'},
-  {id:'soft',       label:'Soft Costs & Misc',       icon:'📦'},
+  {id:'land',label:'Land & Site Work',icon:'🏗️'},
+  {id:'building',label:'Building & Structure',icon:'🏢'},
+  {id:'fuel',label:'Canopy & Fuel Systems',icon:'⛽'},
+  {id:'interior',label:'Interior & Fixtures',icon:'🛒'},
+  {id:'equipment',label:'Equipment',icon:'🧰'},
+  {id:'permits',label:'Permits & Professional',icon:'📋'},
+  {id:'technology',label:'Technology & Security',icon:'💻'},
+  {id:'signage',label:'Signage & Branding',icon:'🪧'},
+  {id:'soft',label:'Soft Costs & Misc',icon:'📦'},
 ];
 
 const DEFAULTS = {
@@ -251,247 +170,200 @@ const DEFAULTS = {
   soft:['Loan Origination / Financing Fees','Construction Loan Interest','General Liability Insurance','Temporary Utilities (Construction)','Site Security During Construction','Waste Removal / Dumpster Rental','Opening Inventory — Fuel','Opening Inventory — Store Merchandise','Employee Hiring & Training','Marketing / Grand Opening Event','Contingency Reserve (10%)','Miscellaneous / Unforeseen'],
 };
 
-// ── State ──────────────────────────────────
-let data = {};
+const fmt = n => '$'+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtLive = r => { const d=String(r).replace(/[^0-9.]/g,''); const p=d.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); return p.length>1?p[0]+'.'+p[1]:p[0]; };
+const $=id=>document.getElementById(id);
+
+let allRows = [];
 let currentCat = null;
-let editingId = null;
-let saveT = null;
+let editingRow = null;
 
-function buildDefaults() {
-  const out = {};
-  for (const [id, descs] of Object.entries(DEFAULTS)) {
-    out[id] = descs.map((d, i) => ({id:`${id}-${i}`, desc:d, amount:'', vendor:'', invoice:'', date:''}));
-  }
-  return out;
-}
+function rows(catId) { return allRows.filter(r=>r.cat_id===catId); }
+function catTotal(catId) { return rows(catId).reduce((s,r)=>s+(parseFloat(r.amount)||0),0); }
+function grandTotal() { return CATS.reduce((s,c)=>s+catTotal(c.id),0); }
 
-function load() {
-  const def = buildDefaults();
+function toast(msg) { const t=$('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',2500); }
+function setSyncStatus(msg) { $('sync-status').textContent=msg; }
+
+async function loadData() {
   try {
-    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if (saved) {
-      for (const cat of CATS) {
-        const s = saved[cat.id] || [];
-        const d = def[cat.id] || [];
-        const ids = new Set(s.map(r=>r.id));
-        data[cat.id] = [...s, ...d.filter(r=>!ids.has(r.id))];
+    setSyncStatus('⟳ Syncing...');
+    const data = await sbFetch('GET','expenses?order=updated_at.asc','');
+    if (Array.isArray(data)) {
+      allRows = data;
+      // Add any missing default rows
+      for (const [catId, descs] of Object.entries(DEFAULTS)) {
+        for (let i=0; i<descs.length; i++) {
+          const id = `${catId}-${i}`;
+          if (!allRows.find(r=>r.id===id)) {
+            const row = {id, cat_id:catId, description:descs[i], amount:'', vendor:'', invoice:'', date:''};
+            allRows.push(row);
+            await sbFetch('POST','expenses',row);
+          }
+        }
       }
-    } else { data = def; }
-  } catch(_) { data = def; }
+    }
+    setSyncStatus('✓ Synced');
+    setTimeout(()=>setSyncStatus(''),2000);
+  } catch(e) {
+    setSyncStatus('⚠ Offline');
+  }
+  $('loading-screen').style.display='none';
+  renderDashboard();
 }
 
-function save() {
-  clearTimeout(saveT);
-  saveT = setTimeout(() => localStorage.setItem(KEY, JSON.stringify(data)), 300);
-}
-
-// ── Utils ───────────────────────────────────
-const $ = id => document.getElementById(id);
-const fmt = n => '$' + Number(n||0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-const fmtLive = raw => { const d = String(raw).replace(/[^0-9.]/g,''); const p = d.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); return p.length>1?p[0]+'.'+p[1]:p[0]; };
-const catTotal = id => (data[id]||[]).reduce((s,r)=>s+(parseFloat(r.amount)||0),0);
-const grandTotal = () => CATS.reduce((s,c)=>s+catTotal(c.id),0);
-const rows = id => data[id]||[];
-
-function toast(msg) { const t=$('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',2000); }
-
-// ── Navigation ──────────────────────────────
 function goBack() {
-  currentCat = null;
-  $('back-btn').style.display = 'none';
-  $('add-btn').style.display = 'none';
-  $('subheader').style.display = 'none';
-  $('header-name').textContent = 'Expense Tracker';
+  currentCat=null;
+  $('back-btn').style.display='none';
+  $('add-btn').style.display='none';
+  $('subheader').style.display='none';
+  $('header-name').textContent='Expense Tracker';
   renderDashboard();
 }
 
 function openCat(catId) {
-  currentCat = catId;
-  const cat = CATS.find(c=>c.id===catId);
-  $('header-name').textContent = cat.icon + ' ' + cat.label;
-  $('back-btn').style.display = 'block';
-  $('add-btn').style.display = 'block';
-  $('subheader').style.display = 'flex';
+  currentCat=catId;
+  const cat=CATS.find(c=>c.id===catId);
+  $('header-name').textContent=cat.icon+' '+cat.label;
+  $('back-btn').style.display='block';
+  $('add-btn').style.display='block';
+  $('subheader').style.display='flex';
   renderCategory(catId);
 }
 
-// ── Render Dashboard ────────────────────────
 function renderDashboard() {
-  const gt = grandTotal();
-  let cards = '';
-  CATS.forEach(cat => {
-    const total = catTotal(cat.id);
-    const filled = rows(cat.id).filter(r=>parseFloat(r.amount)>0).length;
-    const count  = rows(cat.id).length;
-    cards += `
-      <div class="cat-card" onclick="openCat('${cat.id}')">
-        <div class="cat-icon">${cat.icon}</div>
-        <div class="cat-info">
-          <div class="cat-name">${cat.label}</div>
-          <div class="cat-sub">${filled} of ${count} entered</div>
-        </div>
-        <div class="cat-amount ${total>0?'has-val':''}">${total>0?fmt(total):'—'}</div>
-        <div class="cat-chevron">›</div>
-      </div>`;
+  let html=`<div id="total-card"><div id="total-eyebrow">Total Spent to Date</div><div id="total-amount">${fmt(grandTotal())}</div><div id="total-sub">Sterlington, Louisiana · New Build</div></div>`;
+  CATS.forEach(cat=>{
+    const total=catTotal(cat.id);
+    const filled=rows(cat.id).filter(r=>parseFloat(r.amount)>0).length;
+    html+=`<div class="cat-card" onclick="openCat('${cat.id}')">
+      <div class="cat-icon">${cat.icon}</div>
+      <div class="cat-info"><div class="cat-name">${cat.label}</div><div class="cat-sub">${filled} of ${rows(cat.id).length} entered</div></div>
+      <div class="cat-amount ${total>0?'has-val':''}">${total>0?fmt(total):'—'}</div>
+      <div style="color:#CBD5E1;font-size:20px">›</div>
+    </div>`;
   });
-  $('scroll').innerHTML = `
-    <div id="total-card">
-      <div id="total-eyebrow">Total Spent to Date</div>
-      <div id="total-amount">${fmt(gt)}</div>
-      <div id="total-sub">Sterlington, Louisiana · New Build</div>
-    </div>
-    ${cards}
-    <button onclick="exportData()" style="width:100%;background:#0F172A;border:1px solid #1E3A5F;color:#60A5FA;border-radius:14px;padding:16px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px">
-      \u{1F4E4} Export Backup to File
-    </button>
-    <div style="height:8px"></div>
-  `;
+  html+=`<button onclick="exportData()" style="width:100%;background:#0F172A;border:1px solid #1E3A5F;color:#60A5FA;border-radius:14px;padding:16px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px">📤 Export Backup to File</button>`;
+  $('scroll').innerHTML=html;
 }
 
-// ── Render Category ─────────────────────────
 function renderCategory(catId) {
-  const total = catTotal(catId);
-  const filled = rows(catId).filter(r=>parseFloat(r.amount)>0).length;
-  const count  = rows(catId).length;
+  const total=catTotal(catId);
+  const filled=rows(catId).filter(r=>parseFloat(r.amount)>0).length;
+  $('subheader-left').textContent=`${filled} of ${rows(catId).length} entered`;
+  $('subheader-right').textContent=fmt(total);
 
-  $('subheader-left').textContent = `${filled} of ${count} entered`;
-  $('subheader-right').textContent = fmt(total);
-
-  let cards = '';
-  rows(catId).forEach(row => {
-    const hasAmt = parseFloat(row.amount) > 0;
-    const meta = [row.vendor, row.invoice, row.date].filter(Boolean).join(' · ');
-    cards += `
-      <div class="expense-card" onclick="openEdit('${catId}','${row.id}')">
-        <div class="expense-card-inner">
-          <div class="expense-dot ${hasAmt?'filled':''}"></div>
-          <div class="expense-desc">${row.desc}</div>
-          <div class="expense-right">
-            <div class="expense-amount ${hasAmt?'has-val':''}">${hasAmt?fmt(parseFloat(row.amount)):'—'}</div>
-            ${meta ? `<div class="expense-meta">${meta}</div>` : ''}
-          </div>
+  let html='';
+  rows(catId).forEach(row=>{
+    const hasAmt=parseFloat(row.amount)>0;
+    const meta=[row.vendor,row.invoice,row.date].filter(Boolean).join(' · ');
+    html+=`<div class="expense-card" onclick="openEdit('${row.id}')">
+      <div class="expense-inner">
+        <div class="expense-dot ${hasAmt?'filled':''}"></div>
+        <div class="expense-desc">${row.description}</div>
+        <div class="expense-right">
+          <div class="expense-amount ${hasAmt?'has-val':''}">${hasAmt?fmt(parseFloat(row.amount)):'—'}</div>
+          ${meta?`<div class="expense-meta">${meta}</div>`:''}
         </div>
-      </div>`;
+      </div>
+    </div>`;
   });
-
-  $('scroll').innerHTML = `
-    <div class="subtotal-bar">
-      <span class="subtotal-label">SUBTOTAL</span>
-      <span class="subtotal-val">${fmt(total)}</span>
-    </div>
-    ${cards}
-    <button id="add-row-card" onclick="openAdd()">+ Add Custom Item</button>
-    <div style="height:12px"></div>
-  `;
+  html+=`<button id="add-custom-btn" onclick="openAdd()">+ Add Custom Item</button>`;
+  $('scroll').innerHTML=html;
 }
 
-// ── Modal ───────────────────────────────────
 function openAdd() {
-  editingId = null;
-  $('modal-title').textContent = 'Add Expense';
-  $('f-desc').value = '';
-  $('f-amount').value = '';
-  $('f-vendor').value = '';
-  $('f-invoice').value = '';
-  $('f-date').value = '';
-  $('modal-delete').style.display = 'none';
+  editingRow=null;
+  $('modal-title').textContent='Add Expense';
+  $('f-desc').value=''; $('f-amount').value=''; $('f-vendor').value=''; $('f-invoice').value=''; $('f-date').value='';
+  $('modal-delete').style.display='none';
   $('modal-overlay').classList.add('open');
-  setTimeout(() => $('f-amount').focus(), 300);
+  setTimeout(()=>$('f-amount').focus(),300);
 }
 
-function openEdit(catId, rowId) {
-  const row = rows(catId).find(r=>r.id===rowId);
-  if (!row) return;
-  editingId = rowId;
-  currentCat = catId;
-  $('modal-title').textContent = row.desc;
-  $('f-desc').value = row.desc;
-  $('f-amount').value = row.amount ? fmtLive(row.amount) : '';
-  $('f-vendor').value = row.vendor || '';
-  $('f-invoice').value = row.invoice || '';
-  $('f-date').value = row.date || '';
-  $('modal-delete').style.display = 'block';
+function openEdit(rowId) {
+  const row=allRows.find(r=>r.id===rowId);
+  if(!row) return;
+  editingRow=row;
+  $('modal-title').textContent=row.description;
+  $('f-desc').value=row.description;
+  $('f-amount').value=row.amount?fmtLive(row.amount):'';
+  $('f-vendor').value=row.vendor||'';
+  $('f-invoice').value=row.invoice||'';
+  $('f-date').value=row.date||'';
+  $('modal-delete').style.display='block';
   $('modal-overlay').classList.add('open');
-  setTimeout(() => $('f-amount').focus(), 300);
+  setTimeout(()=>$('f-amount').focus(),300);
 }
 
-function closeModal() { $('modal-overlay').classList.remove('open'); editingId = null; }
+function closeModal() { $('modal-overlay').classList.remove('open'); editingRow=null; }
+function handleOverlay(e) { if(e.target===$('modal-overlay')) closeModal(); }
 
-function handleOverlayClick(e) { if (e.target === $('modal-overlay')) closeModal(); }
+async function saveModal() {
+  const desc=$('f-desc').value.trim();
+  if(!desc) { $('f-desc').focus(); return; }
+  const amount=$('f-amount').value.replace(/[^0-9.]/g,'');
+  const vendor=$('f-vendor').value.trim();
+  const invoice=$('f-invoice').value.trim();
+  const date=$('f-date').value;
 
-function saveModal() {
-  const desc   = $('f-desc').value.trim();
-  const amount = $('f-amount').value.replace(/[^0-9.]/g,'');
-  const vendor = $('f-vendor').value.trim();
-  const invoice= $('f-invoice').value.trim();
-  const date   = $('f-date').value;
-  if (!desc) { $('f-desc').focus(); return; }
-
-  if (editingId) {
-    data[currentCat] = rows(currentCat).map(r =>
-      r.id === editingId ? {...r, desc, amount, vendor, invoice, date} : r
-    );
+  setSyncStatus('⟳ Saving...');
+  if(editingRow) {
+    Object.assign(editingRow,{description:desc,amount,vendor,invoice,date});
+    await sbFetch('POST','expenses',{...editingRow,updated_at:new Date().toISOString()});
     toast('✓ Saved');
   } else {
-    const row = {id: Date.now().toString(), desc, amount, vendor, invoice, date};
-    data[currentCat] = [...rows(currentCat), row];
+    const row={id:Date.now().toString(),cat_id:currentCat,description:desc,amount,vendor,invoice,date,updated_at:new Date().toISOString()};
+    allRows.push(row);
+    await sbFetch('POST','expenses',row);
     toast('✓ Added');
   }
-  save();
+  setSyncStatus('✓ Synced');
+  setTimeout(()=>setSyncStatus(''),2000);
   closeModal();
-  renderCategory(currentCat);
+  if(currentCat) renderCategory(currentCat);
+  else renderDashboard();
 }
 
-function doDelete() {
-  if (!editingId) return;
-  data[currentCat] = rows(currentCat).filter(r=>r.id!==editingId);
-  save();
+async function doDelete() {
+  if(!editingRow) return;
+  setSyncStatus('⟳ Deleting...');
+  await sbFetch('DELETE',`expenses?id=eq.${editingRow.id}`);
+  allRows=allRows.filter(r=>r.id!==editingRow.id);
+  setSyncStatus('✓ Synced');
+  setTimeout(()=>setSyncStatus(''),2000);
   closeModal();
-  renderCategory(currentCat);
+  if(currentCat) renderCategory(currentCat);
   toast('Deleted');
 }
 
-// Amount live formatting
-$('f-amount').addEventListener('input', function() {
-  const pos = this.selectionStart;
-  const raw = this.value.replace(/[^0-9.]/g,'');
-  this.value = fmtLive(raw);
+function exportData() {
+  const d=new Date().toLocaleDateString('en-US');
+  let t='STERLINGTON EXPENSE TRACKER\nExported: '+d+'\n'+'='.repeat(40)+'\n\n';
+  let grand=0;
+  CATS.forEach(cat=>{
+    const r2=rows(cat.id).filter(r=>parseFloat(r.amount)>0);
+    const sub=r2.reduce((s,r)=>s+(parseFloat(r.amount)||0),0);
+    grand+=sub;
+    t+=cat.icon+' '+cat.label.toUpperCase()+'\n'+'-'.repeat(36)+'\n';
+    if(!r2.length){t+='  (no entries)\n';}
+    else{r2.forEach(r=>{t+='  '+r.description+'\n    Amount:  '+fmt(parseFloat(r.amount))+'\n';if(r.vendor)t+='    Vendor:  '+r.vendor+'\n';if(r.invoice)t+='    Invoice: '+r.invoice+'\n';if(r.date)t+='    Date:    '+r.date+'\n';});t+='  SUBTOTAL: '+fmt(sub)+'\n';}
+    t+='\n';
+  });
+  t+='='.repeat(40)+'\nGRAND TOTAL: '+fmt(grand)+'\n';
+  const blob=new Blob([t],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='Sterlington-'+d.replace(/\//g,'-')+'.txt';a.click();
+  URL.revokeObjectURL(url);
+  toast('Export downloaded!');
+}
+
+$('f-amount').addEventListener('input',function(){
+  this.value=fmtLive(this.value.replace(/[^0-9.]/g,''));
 });
 
-
-// Export backup
-function exportData() {
-  const d = new Date().toLocaleDateString("en-US");
-  let t = "STERLINGTON EXPENSE TRACKER\nExported: " + d + "\n" + "=".repeat(40) + "\n\n";
-  let grand = 0;
-  for (const cat of CATS) {
-    const r2 = (data[cat.id]||[]).filter(r => parseFloat(r.amount) > 0);
-    const sub = r2.reduce((s,r)=>s+(parseFloat(r.amount)||0),0);
-    grand += sub;
-    t += cat.icon + " " + cat.label.toUpperCase() + "\n" + "-".repeat(36) + "\n";
-    if (!r2.length) { t += "  (no entries)\n"; }
-    else {
-      r2.forEach(r => {
-        t += "  " + r.desc + "\n    Amount:  " + fmt(parseFloat(r.amount)) + "\n";
-        if (r.vendor)  t += "    Vendor:  " + r.vendor + "\n";
-        if (r.invoice) t += "    Invoice: " + r.invoice + "\n";
-        if (r.date)    t += "    Date:    " + r.date + "\n";
-      });
-      t += "  SUBTOTAL: " + fmt(sub) + "\n";
-    }
-    t += "\n";
-  }
-  t += "=".repeat(40) + "\nGRAND TOTAL: " + fmt(grand) + "\n";
-  const blob = new Blob([t], {type:"text/plain"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href=url; a.download="Sterlington-"+d.replace(/\//g,"-")+".txt"; a.click();
-  URL.revokeObjectURL(url);
-  toast("Export downloaded!");
-}
-// ── Init ────────────────────────────────────
-load();
-renderDashboard();
+loadData();
 </script>
 </body>
 </html>
